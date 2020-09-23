@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const passport = require('../config/passport');
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 const bcryptSalt = 10
 
-
+const {
+    updateUserCreative,
+    updateUserNegocio
+} = require(`../controllers/users`)
 
 router.post('/signup', (req, res, next) => {
     User.register(req.body, req.body.password)
@@ -14,9 +17,11 @@ router.post('/signup', (req, res, next) => {
 });
 
 
+
+
 //Sign Up creator
 
-router.post('/creator/signup', (req, res, next) => {
+/* router.post('/creator/signup', (req, res, next) => {
     const { email, password } = req.body
     if (email === "" || password === "") {
         res.status().json({ msg: "Indicate username and password" })
@@ -45,7 +50,7 @@ router.post('/creator/signup', (req, res, next) => {
             .then((user) => res.status(201).json({ user }))
             .catch((err) => res.status(500).json({ err }));
     })
-})
+}) */
 
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
     const { user } = req;
@@ -53,6 +58,9 @@ router.post('/login', passport.authenticate('local'), (req, res, next) => {
 });
 
 
+router.post('/profile/creator/:userId', isAuth, updateUserCreative)
+
+router.post('/profile/business/:userId', isAuth, updateUserNegocio)
 
 router.get('/logout', (req, res, next) => {
     req.logout();
@@ -61,7 +69,16 @@ router.get('/logout', (req, res, next) => {
 
 router.get('/profile', isAuth, (req, res, next) => {
     User.findById(req.user._id)
-        .then((user) => res.status(200).json({ user }))
+
+    .then((user) => res.status(200).json({ user }))
+        .catch((err) => res.status(500).json({ err }));
+});
+
+
+router.get('/creator/profile', isAuth, (req, res, next) => {
+    User.findById(req.user._id)
+
+    .then((user) => res.status(200).json({ user }))
         .catch((err) => res.status(500).json({ err }));
 });
 

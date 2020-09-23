@@ -5,6 +5,7 @@ const FacebookStrategy = require("passport-facebook").Strategy
 const GoogleStrategy = require("passport-google-oauth20").Strategy
 const bcrypt = require('bcrypt');
 
+
 const facebookConfig = {
     clientID: process.env.FACEBOOK_ID,
     clientSecret: process.env.FACEBOOK_SECRET,
@@ -20,6 +21,7 @@ const googleConfig = {
 
 // LOCAL
 passport.use(User.createStrategy())
+
 
 
 //LOCAL FOR CREATOS 
