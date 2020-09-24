@@ -1,7 +1,7 @@
 const User = require("../models/User")
 const Asset = require("../models/Asset")
 const Participant = require("../models/Participant")
-const Promo = requiere("../models/Promo")
+const Promo = require("../models/Promo")
 
 exports.getPromos = async(req, res) => {
     const promos = await Promo.find()
