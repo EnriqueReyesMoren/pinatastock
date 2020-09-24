@@ -14,15 +14,29 @@ const userSchema = new Schema({
     role: {
         type: String,
         enum: ["admin", "user", "creator", "business"],
+        default: 'user',
     },
     history: {
         type: Array,
         default: []
     },
-    publish: {
-        type: Array,
-        default: []
-    },
+    publish: [{
+        type: Schema.Types.ObjectId,
+        ref: "Asset"
+
+    }],
+    promos: [{
+        type: Schema.Types.ObjectId,
+        ref: "Promo"
+
+    }],
+
+    contender: [{
+        type: Schema.Types.ObjectId,
+        ref: "Participant"
+
+    }],
+
     portfolio: String,
     address: String,
     phone: Number

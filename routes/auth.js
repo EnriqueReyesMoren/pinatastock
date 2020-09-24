@@ -2,9 +2,16 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const passport = require('../config/passport');
-const bcrypt = require("bcrypt");
-const bcryptSalt = 10
 
+
+const {
+    isAdmin,
+    isAuth,
+    isBusiness,
+    isCreator
+} = require(`../controllers/auth`)
+
+//
 const {
     updateUserCreative,
     updateUserNegocio
@@ -17,40 +24,6 @@ router.post('/signup', (req, res, next) => {
 });
 
 
-
-
-//Sign Up creator
-
-/* router.post('/creator/signup', (req, res, next) => {
-    const { email, password } = req.body
-    if (email === "" || password === "") {
-        res.status().json({ msg: "Indicate username and password" })
-        return
-    }
-
-    User.findOne({ email }, "username", (err, user) => {
-        if (user !== null) {
-            res.status(401).json({ msg: "The username already exists" })
-            return
-        }
-
-        const salt = bcrypt.genSaltSync(bcryptSalt)
-        const hashPass = bcrypt.hashSync(password, salt)
-        let newUser
-
-        newUser = new User({
-            email,
-            hashPass,
-            role: "creator"
-        })
-
-
-        newUser
-            .save()
-            .then((user) => res.status(201).json({ user }))
-            .catch((err) => res.status(500).json({ err }));
-    })
-}) */
 
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
     const { user } = req;
@@ -116,8 +89,6 @@ router.get("/auth/google/callback", (req, res, next) => {
     })(req, res, next)
 })
 
-function isAuth(req, res, next) {
-    req.isAuthenticated() ? next() : res.status(401).json({ msg: 'Log in first' });
-}
+
 
 module.exports = router;

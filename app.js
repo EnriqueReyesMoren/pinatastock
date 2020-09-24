@@ -50,6 +50,10 @@ app.use(logger('dev'));
 
 const index = require('./routes/index');
 const auth = require('./routes/auth');
+
+
+
+
 app.use('/', index);
 app.use('/', auth);
 

@@ -18,11 +18,7 @@ const PromoSchema = new Schema({
         trim: true,
         maxlength: 32
     },
-    category: {
-        type: ObjectId,
-        ref: "Category",
-        required: true
-    },
+
     status: {
         type: String,
         enum: ["active", "finished"],
@@ -31,7 +27,22 @@ const PromoSchema = new Schema({
     photo: {
         type: String,
 
-    }
-}, { timestamps: true });
+    },
+    business: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    winner: {
+        type: Schema.Types.ObjectId,
+        ref: "Participant"
+    },
+    participants: [{
+        type: Schema.Types.ObjectId,
+        ref: "Participant"
+    }]
+}, {
+    timestamps: true,
+    versionKey: false
+});
 
 module.exports = model("Promo", PromoSchema);

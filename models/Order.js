@@ -2,7 +2,10 @@ const { Schema, model } = require("mongoose");
 
 
 const CartItemSchema = new Schema({
-    product: { type: ObjectId, ref: "Asset" },
+    asset: {
+        type: Schema.Types.ObjectId,
+        ref: "Asset"
+    },
     name: String,
     price: Number,
 }, { timestamps: true });
@@ -19,7 +22,10 @@ const OrderSchema = new Schema({
         enum: ["Not processed", "Processing", "Downloaded", "Cancelled"]
     },
     updated: Date,
-    user: { type: ObjectId, ref: "User" }
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }
 }, { timestamps: true });
 
 const Order = model("Order", OrderSchema);
