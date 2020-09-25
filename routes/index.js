@@ -1,4 +1,3 @@
-const express = require('express');
 const router = require('express').Router();
 const { catchErrors } = require("../middlewares");
 
@@ -13,11 +12,6 @@ const {
     promoDetail
 } = require("../controllers/promos")
 
-const {
-    userById,
-    readUser,
-    purchaseHistory
-} = require('../controllers/users');
 
 
 const {
@@ -25,8 +19,7 @@ const {
     getAssets,
     getAsset,
     deleteAsset,
-    updateAssets
-
+    updateAsset
 } = require("../controllers/assets")
 
 const {
@@ -35,21 +28,11 @@ const {
 } = require(`../controllers/auth`)
 
 const {
-    create,
-    categoryById,
-    read,
-    update,
-    remove,
-    list
-} = require('../controllers/categories');
+    checkValidAssets,
+    getInvalidProducts
+} = require(`../controllers/admin`)
 
-const {
-    createOrder,
-    listOrders,
-    getStatusValues,
-    orderById,
-    updateOrderStatus
-} = require("../controllers/orders");
+
 
 const checkBusiness = checkRoles('business');
 const checkAdmin = checkRoles('admin');
@@ -62,57 +45,28 @@ router.get('/', (req, res, next) => {
 });
 
 
-//===========Params================
 
-router.param("userId", userById);
-router.param("orderId", orderById);
-router.param('categoryId', categoryById);
-
-//===========Assets================
 
 router.get("/assets/", catchErrors(getAssets))
 router.get("/assets/:assetsId", catchErrors(getAsset))
 router.post("/assets/create", checkCreator, catchErrors(createAsset))
-router.put("/assets/:assetsId", checkAdmin, catchErrors(updateAssets))
+router.put("/assets/:assetsId", checkAdmin,  catchErrors(updateAsset))
 router.delete("/assets/:assetsId", checkAdmin, catchErrors(deleteAsset))
 
 //==========Promo===============
 
-router.post("/promos/new/:productId", checkBusiness, catchErrors(createPromo))
-router.get("/promos/:promoId", catchErrors(getPromos))
-router.get("/promos/", catchErrors(getPromo))
-router.get("/promos/:promoId/detail", promoDetail)
+router.post("/promos/new/", checkBusiness, catchErrors(createPromo))
+router.get("/promos/:promoId", catchErrors(getPromo))
+router.get("/promos/", catchErrors(getPromos))
+router.get("/promos/detail/:promoId", promoDetail)
 router.post("/promos-participant/:promoId", addParticipants)
 router.get("/promos/end/:promoId", setPromoWinner)
-router.put("/assets/:assetsId", checkBusiness, catchErrors(updatePromo))
-router.delete("/promos/:assetsId", checkAdmin, catchErrors(deletePromo))
+router.put("/promos/:promoId", checkBusiness, catchErrors(updatePromo))
+router.delete("/promos/:promoId", checkBusiness, catchErrors(deletePromo))
 
+//=========================Admin tasks==============================
 
-//=====================Categories =========================
-
-router.get('/category/:categoryId', catchErrors(read));
-router.post('/category/create/:userId', checkAdmin, catchErrors(create));
-router.put('/category/:categoryId/:userId', checkAdmin, catchErrors(update));
-
-router.delete('/category/:categoryId/:userId', checkAdmin, catchErrors(remove));
-router.get('/categories', list);
-
-
-
-
-//=====================Orders=========================
-
-router.post("/order/create/:userId", isAuth, catchErrors(createOrder));
-
-router.get("/order/list/:userId", checkAdmin, listOrders);
-router.get("/order/status-values/:userId", isAuth, checkAdmin, getStatusValues);
-router.put("/order/:orderId/status/:userId", checkAdmin, updateOrderStatus);
-
-
-
-//=====================Users action=========================
-
-router.get('/user/:userId', isAuth, readUser);
-router.get('/orders/by/user/:userId', isAuth, purchaseHistory);
+router.get("/admin/validate", checkAdmin, catchErrors(getInvalidProducts))
+router.put("/admin/validate/:assetId", checkAdmin, catchErrors(checkValidAssets))
 
 module.exports = router;

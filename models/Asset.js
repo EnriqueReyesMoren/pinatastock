@@ -35,6 +35,10 @@ const AssetSchema = new Schema({
     creator: {
         type: Schema.Types.ObjectId,
         ref: "User"
+    },
+    valid: {
+        type: Boolean,
+        default: false
     }
 
 }, {

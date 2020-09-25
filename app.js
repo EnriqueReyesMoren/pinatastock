@@ -12,7 +12,7 @@ const passport = require('./config/passport');
 const flash = require('connect-flash');
 
 mongoose
-    .connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
     .then((x) => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
     .catch((err) => console.error('Error connecting to mongo', err));
 
@@ -57,9 +57,9 @@ const auth = require('./routes/auth');
 app.use('/', index);
 app.use('/', auth);
 
-/* app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/build", "index.html"))
-}) */
+app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/build", "index.html"))
+})
 
 // Uncomment this line for production
 // app.get('/*', (req, res) => res.sendFile(__dirname + '/public/index.html'));

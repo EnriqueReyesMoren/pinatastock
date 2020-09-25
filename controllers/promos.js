@@ -41,14 +41,15 @@ exports.createPromo = async(req, res) => {
 
 exports.updatePromo = async(req, res) => {
     const { name, description, price, status } = req.body
-    const { promoId } = req.params
+    /* const promo = await Promo.findById(
+        req.params.promoId) */
     const promo = await Promo.findByIdAndUpdate(
-        promoId, {
+        req.params.promoId, {
             name,
             description,
             price,
             status
-        }, { new: true }
+        }
     )
     res.status(200).json({ promo })
 }
@@ -112,15 +113,7 @@ exports.deletePromo = async(req, res) => {
 
 exports.promoDetail = async(req, res) => {
     const promo = await Promo.findById(req.params.promoId)
-        .populate("business")
         .populate("participants")
-        .populate({
-            path: "business",
-            populate: {
-                path: "name",
-                model: "User"
-            }
-        })
         .populate({
             path: "participants",
             populate: {
@@ -128,6 +121,8 @@ exports.promoDetail = async(req, res) => {
                 model: "Participant"
             }
         })
+
+        console.log(promo)
 
     res.status(200).json({ promo })
 }
