@@ -8,6 +8,7 @@ const CartItemSchema = new Schema({
     },
     name: String,
     price: Number,
+    count: Number
 }, { timestamps: true });
 
 const CartItem = model("CartItem", CartItemSchema);

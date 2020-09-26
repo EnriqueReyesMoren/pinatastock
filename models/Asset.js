@@ -18,8 +18,7 @@ const AssetSchema = new Schema({
         maxlength: 32
     },
     category: {
-        type: Schema.Types.ObjectId,
-        ref: "Category",
+        type: String
     },
     quantity: {
         type: Number,

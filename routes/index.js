@@ -32,6 +32,9 @@ const {
     getInvalidProducts
 } = require(`../controllers/admin`)
 
+const {
+    promoParticipate
+} = require(`../controllers/creative`)
 
 
 const checkBusiness = checkRoles('business');
@@ -68,5 +71,10 @@ router.delete("/promos/:promoId", checkBusiness, catchErrors(deletePromo))
 
 router.get("/admin/validate", checkAdmin, catchErrors(getInvalidProducts))
 router.put("/admin/validate/:assetId", checkAdmin, catchErrors(checkValidAssets))
+
+
+//===================================Creative====================================
+
+router.post("/participant/:promoId", checkCreator, promoParticipate)
 
 module.exports = router;

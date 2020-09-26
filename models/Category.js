@@ -7,7 +7,11 @@ const categorySchema = new Schema({
         required: true,
         maxlength: 32,
         unique: true
-    }
+    },
+    asset:[{
+        type: Schema.Types.ObjectId,
+        ref: "Asset"
+    }]
 }, { timestamps: true });
 
 module.exports = model("Category", categorySchema);

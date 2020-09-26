@@ -15,7 +15,7 @@ exports.getAsset = async(req, res) => {
 
 exports.createAsset = async(req, res) => {
     // 1. extraer la informacion
-    const { name, description, price, quantity, sold } = req.body
+    const { name, description, price, quantity, sold, category} = req.body
         /*  const { path: image } = req.file */
         /*   const { id: creator } = req.user */
         // 2. creamos el producto en base al usuario en sesion
@@ -25,6 +25,7 @@ exports.createAsset = async(req, res) => {
         price,
         quantity,
         sold,
+        category,
         creator: req.user.id
             /*  image, */
             /*  creator, */
