@@ -37,6 +37,24 @@ const {
 } = require(`../controllers/creative`)
 
 
+const {
+    createOrder,
+    listOrders,
+    getStatusValues,
+    findOrderById,
+    updateOrderStatus
+
+} = require("../controllers/orders");
+
+const {
+    addOrderToUserHistory,
+    purchaseHistory
+} = require("../controllers/users")
+
+const { generateToken, 
+processPayment 
+} = require("../controllers/braintree");
+
 const checkBusiness = checkRoles('business');
 const checkAdmin = checkRoles('admin');
 const checkCreator = checkRoles('creator');
@@ -48,12 +66,12 @@ router.get('/', (req, res, next) => {
 });
 
 
-
+//=========================Assets =================
 
 router.get("/assets/", catchErrors(getAssets))
 router.get("/assets/:assetsId", catchErrors(getAsset))
 router.post("/assets/create", checkCreator, catchErrors(createAsset))
-router.put("/assets/:assetsId", checkAdmin,  catchErrors(updateAsset))
+router.put("/assets/:assetsId", checkAdmin, catchErrors(updateAsset))
 router.delete("/assets/:assetsId", checkAdmin, catchErrors(deleteAsset))
 
 //==========Promo===============
@@ -76,5 +94,22 @@ router.put("/admin/validate/:assetId", checkAdmin, catchErrors(checkValidAssets)
 //===================================Creative====================================
 
 router.post("/participant/:promoId", checkCreator, promoParticipate)
+
+
+//======================================Ordenes=============================
+
+router.post("/order/create/:userId", isAuth, addOrderToUserHistory, createOrder);
+router.get("/order/list/:userId", checkAdmin, listOrders);
+router.get("/order/status-values/:userId", checkAdmin, getStatusValues);
+router.put("/order/:orderId/status/:userId", checkAdmin, updateOrderStatus);
+
+router.get('/orders/by/user/:userId', isAuth, purchaseHistory);
+
+
+//==========================================Pagos ================================
+
+router.get("/braintree/getToken/:userId",  isAuth, generateToken);
+router.post("/braintree/payment/:userId",  isAuth, processPayment);
+
 
 module.exports = router;
