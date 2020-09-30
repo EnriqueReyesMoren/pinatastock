@@ -17,13 +17,14 @@ exports.getPromo = async(req, res) => {
 
 exports.createPromo = async(req, res) => {
     // 1. extraer la informacion
-    const { name, description, price } = req.body
+    const { name, description, photo, price } = req.body
         /*  const { path: image } = req.file */
         /*   const { id: creator } = req.user */
         // 2. creamos el producto en base al usuario en sesion
     const newPromo = await Promo.create({
         name,
         description,
+        photo,
         price,
         status: "active",
         business: req.user.id
@@ -40,15 +41,16 @@ exports.createPromo = async(req, res) => {
 }
 
 exports.updatePromo = async(req, res) => {
-    const { name, description, price, status } = req.body
-    /* const promo = await Promo.findById(
-        req.params.promoId) */
+    const { name, description, price, status, photo } = req.body
+        /* const promo = await Promo.findById(
+            req.params.promoId) */
     const promo = await Promo.findByIdAndUpdate(
         req.params.promoId, {
             name,
             description,
             price,
-            status
+            status,
+            photo
         }
     )
     res.status(200).json({ promo })
@@ -122,7 +124,7 @@ exports.promoDetail = async(req, res) => {
             }
         })
 
-        console.log(promo)
+    console.log(promo)
 
     res.status(200).json({ promo })
 }

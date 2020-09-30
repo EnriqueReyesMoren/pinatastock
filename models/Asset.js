@@ -20,14 +20,6 @@ const AssetSchema = new Schema({
     category: {
         type: String
     },
-    quantity: {
-        type: Number,
-        default: 30
-    },
-    sold: {
-        type: Number,
-        default: 0
-    },
     photo: {
         type: String,
     },

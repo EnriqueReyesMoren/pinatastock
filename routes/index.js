@@ -51,8 +51,9 @@ const {
     purchaseHistory
 } = require("../controllers/users")
 
-const { generateToken, 
-processPayment 
+const {
+    generateToken,
+    processPayment
 } = require("../controllers/braintree");
 
 const checkBusiness = checkRoles('business');
@@ -70,7 +71,7 @@ router.get('/', (req, res, next) => {
 
 router.get("/assets/", catchErrors(getAssets))
 router.get("/assets/:assetsId", catchErrors(getAsset))
-router.post("/assets/create", checkCreator, catchErrors(createAsset))
+router.post("/assets/create", /* checkCreator,  */ catchErrors(createAsset))
 router.put("/assets/:assetsId", checkAdmin, catchErrors(updateAsset))
 router.delete("/assets/:assetsId", checkAdmin, catchErrors(deleteAsset))
 
@@ -80,7 +81,7 @@ router.post("/promos/new/", checkBusiness, catchErrors(createPromo))
 router.get("/promos/:promoId", catchErrors(getPromo))
 router.get("/promos/", catchErrors(getPromos))
 router.get("/promos/detail/:promoId", promoDetail)
-router.post("/promos-participant/:promoId", addParticipants)
+router.post("/promos/participant/:promoId", addParticipants)
 router.get("/promos/end/:promoId", setPromoWinner)
 router.put("/promos/:promoId", checkBusiness, catchErrors(updatePromo))
 router.delete("/promos/:promoId", checkBusiness, catchErrors(deletePromo))
@@ -108,8 +109,8 @@ router.get('/orders/by/user/:userId', isAuth, purchaseHistory);
 
 //==========================================Pagos ================================
 
-router.get("/braintree/getToken/:userId",  isAuth, generateToken);
-router.post("/braintree/payment/:userId",  isAuth, processPayment);
+router.get("/braintree/getToken/:userId", isAuth, generateToken);
+router.post("/braintree/payment/:userId", isAuth, processPayment);
 
 
 module.exports = router;
