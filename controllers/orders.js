@@ -1,4 +1,4 @@
-const { Order, CartItem } = require('../models/order');
+const { Order, CartItem } = require('../models/Order');
 
 // sendgrid for email npm i @sendgrid/mail
 /* const sgMail = require('@sendgrid/mail');
@@ -55,7 +55,7 @@ exports.listOrders = (req, res) => {
         .exec((err, orders) => {
             if (err) {
                 return res.status(400).json({
-                    msg:  "Error al listar ordenes"
+                    msg: "Error al listar ordenes"
                 });
             }
             res.json(orders);

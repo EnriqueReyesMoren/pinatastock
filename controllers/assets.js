@@ -20,20 +20,20 @@ exports.createAsset = async(req, res) => {
     /*   const { id: creator } = req.user */
     // 2. creamos el producto en base al usuario en sesion
     const newAsset = await Asset.create({
-            name,
-            description,
-            price,
-            category,
-            photo,
-            /*    creator: req.user.id */
+        name,
+        description,
+        price,
+        category,
+        photo,
+        creator: req.user.id
             /*  image, */
             /*  creator, */
+    })
+    await User.findByIdAndUpdate(req.user.id, {
+            $push: {
+                publish: newAsset._id
+            }
         })
-        /*  await User.findByIdAndUpdate(req.user.id, {
-                 $push: {
-                     publish: newAsset._id
-                 }
-             }) */
         .then((newAsset) => res.status(200).json({ newAsset }))
         .catch((err) => res.status(500).json({ err }));
 }
