@@ -26,6 +26,7 @@ const PromoSchema = new Schema({
     },
     photo: {
         type: String,
+        default: "https://res.cloudinary.com/hito-negro/image/upload/v1601444521/Assets/street-food_t20_WKW1kK_gvvb8j.jpg"
 
     },
     business: {
