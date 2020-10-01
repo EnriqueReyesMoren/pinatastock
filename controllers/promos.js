@@ -9,9 +9,9 @@ exports.getPromos = async(req, res) => {
 }
 
 exports.getPromo = async(req, res) => {
-    const promo = await Promo.findById(
+    const promos = await Promo.findById(
         req.params.promoId).populate("business")
-    res.status(200).json({ promo })
+    res.status(200).json({ promos })
 }
 
 

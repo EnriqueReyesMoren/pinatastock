@@ -41,12 +41,18 @@ router.get('/logout', (req, res, next) => {
 });
 
 router.get('/profile', isAuth, (req, res, next) => {
-    User.findById(req.user._id)
+    User.findById(req.user._id).populate("promos").populate("publish").populate("contender").populate("history")
 
     .then((user) => res.status(200).json({ user }))
         .catch((err) => res.status(500).json({ err }));
 });
 
+
+/* const currentUser = async(req, res) => {
+    const user = await User.findById(req.user.id).populate("publish").populate("contender").populate("promos")
+    res.status(200).json({ user })
+}
+router.get("/currentuser", currentUser) */
 
 router.get('/creator/profile', isAuth, (req, res, next) => {
     User.findById(req.user._id)
@@ -54,6 +60,8 @@ router.get('/creator/profile', isAuth, (req, res, next) => {
     .then((user) => res.status(200).json({ user }))
         .catch((err) => res.status(500).json({ err }));
 });
+
+
 
 router.get(
     "/auth/facebook",
